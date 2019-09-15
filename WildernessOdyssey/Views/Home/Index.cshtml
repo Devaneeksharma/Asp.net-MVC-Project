@@ -1,0 +1,35 @@
+﻿@section header {
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
+}
+
+<div class=" form-group date-grid row">
+    <div class="date_pickercls col-lg-4">
+        <label for="seldate">Start Date</label> <br />
+        <input class="start datepicker" data-date-format="dd/mm/yyyy">
+        <span class="glyphicon glyphicon-calendar"></span>
+    </div>
+    <div class="date_pickercls  col-lg-4">
+        <label for="seldate">End Date</label> 
+        <div class='input-group date'>
+            <input class="end datepicker datepicker-orient-bottom" data-date-format="dd/mm/yyyy">            
+            <span class="glyphicon glyphicon-calendar"></span>
+         </div>
+    </div>
+
+    <div class="searchbtn  btn-link col-lg-4 col-lg-6">
+
+    <input type="button"  value="Search" onclick="location.href='@Url.Action("", "Trips")'" />
+
+    </div>
+
+
+</div>
+
+<script>
+
+    $('.datepicker').datepicker({"startDate": '+0d',"autoclose": true});
+   
+</script>

@@ -1,0 +1,67 @@
+﻿@model WildernessOdyssey.Models.Trips
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Trips</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TripType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TripType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TripName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TripName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TripLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TripLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TripId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
