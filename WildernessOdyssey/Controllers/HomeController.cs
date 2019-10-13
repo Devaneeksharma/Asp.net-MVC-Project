@@ -28,5 +28,21 @@ namespace WildernessOdyssey.Controllers
 
             return View();
         }
+
+        public ActionResult Chat()
+        {
+            return View();
+        }
+
+        //[HttpPost]
+        //public ActionResult Send_Email(SendEmail model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+
+        //    }
+
+        //    return View();
+        //}
     }
 }

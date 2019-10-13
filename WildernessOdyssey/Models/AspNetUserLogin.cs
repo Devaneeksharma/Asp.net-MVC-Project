@@ -12,15 +12,12 @@ namespace WildernessOdyssey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Trips
+    public partial class AspNetUserLogin
     {
-        public int TripId { get; set; }
-        public string TripType { get; set; }
-        public string TripName { get; set; }
-        public string TripLocation { get; set; }
-        public string Duration { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public string Path { get; set; }
+        public string LoginProvider { get; set; }
+        public string ProviderKey { get; set; }
+        public string UserId { get; set; }
+    
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

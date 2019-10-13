@@ -13,7 +13,7 @@
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
+            <div class="navbar-header ">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -24,18 +24,21 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Trips", "Index", "Trips")</li>
+                    <li>@Html.ActionLink("Upcoming Trips", "Index", "Trips")</li>
+                    <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
 
                     @if (User.Identity.IsAuthenticated)
                     {
                         if (User.IsInRole("admin"))
                         {
 
-                            <li>@Html.ActionLink("All Users", "Create", "Users")</li>
-                            
-                            }
-                            else
-                            {
+                            <@*li>@Html.ActionLink("All Users", "Index", "Users")</li>*@
+                            <li>@Html.ActionLink("Send Email", "Create", "SendEmails")</li>
+
+
+                        }
+                        else
+                        {
 
                             <li>@Html.ActionLink("My Trips", "BookingHistory", "Manage")</li>
                         }
@@ -43,7 +46,7 @@
 
                     }
 
-                </ul>
+                        </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

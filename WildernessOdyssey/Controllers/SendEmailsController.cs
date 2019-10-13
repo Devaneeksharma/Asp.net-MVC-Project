@@ -7,131 +7,152 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WildernessOdyssey.Models;
+using WildernessOdyssey.Util;
 using System.IO;
 
 namespace WildernessOdyssey.Controllers
 {
-    public class TripsController : Controller
+    public class SendEmailsController : Controller
     {
         private WildernessModelContainer db = new WildernessModelContainer();
 
-        // GET: Trips
+        // GET: SendEmails
         public ActionResult Index()
         {
-            return View(db.Trips.ToList());
+            return View(db.SendEmails.ToList());
         }
 
-        // GET: Trips/Details/5
+        // GET: SendEmails/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Trips trips = db.Trips.Find(id);
-            if (trips == null)
+            SendEmail sendEmail = db.SendEmails.Find(id);
+            if (sendEmail == null)
             {
                 return HttpNotFound();
             }
-            return View(trips);
+            return View(sendEmail);
         }
 
-        // GET: Trips/Create
+        // GET: SendEmails/Create
         [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Trips/Create
+        // POST: SendEmails/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TripId,TripType,TripName,TripLocation,Duration,StartDate,EndDate,Path")] Trips trips,HttpPostedFileBase postedFile)
+        public ActionResult Create([Bind(Include = "Id,ToEmail,Subject,Content,Path")] SendEmail sendEmail, HttpPostedFileBase addAttachment)
         {
 
-            ModelState.Clear();
             var myUniqueFileName = string.Format(@"{0}", Guid.NewGuid());
-            trips.Path = myUniqueFileName;
-            TryValidateModel(trips);
+            sendEmail.Path = myUniqueFileName;
+            TryValidateModel(sendEmail);
 
             if (ModelState.IsValid)
-            {
-                if (postedFile != null)
-                {                    
-                    string path = Server.MapPath("~/Content/images/");
-                    string fileExtension = Path.GetExtension(postedFile.FileName);
-                    string filePath = trips.Path + fileExtension;
-                    trips.Path = filePath;
-                    postedFile.SaveAs(path + trips.Path);
+            {         
+
+                try
+                {
+                    String toEmail = sendEmail.ToEmail;
+                    String subject = sendEmail.Subject;
+                    String contents = sendEmail.Content;
+
+                    string path = Server.MapPath("~/Content/email/");
+                    string fileExtension = Path.GetExtension(addAttachment.FileName);
+                    string filePath = sendEmail.Path + fileExtension;
+                    sendEmail.Path = filePath;
+                    addAttachment.SaveAs(path + sendEmail.Path);
                     ViewBag.Message = "File uploaded successfully.";
+
+
+                    EmailSender es = new EmailSender();
+                    es.Send(toEmail, subject, contents, path+sendEmail.Path, sendEmail.Path);
+
+                    ViewBag.Result = "Email has been send.";
+
+                    //ModelState.Clear();
+                    db.SendEmails.Add(sendEmail);
+                    db.SaveChanges();
+                    //return View(new SendEmail());
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
                 }
 
-                db.Trips.Add(trips);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+               
+                
             }
 
-            return View(trips);
+            return View(sendEmail);
         }
 
-        // GET: Trips/Edit/5
+        // GET: SendEmails/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Trips trips = db.Trips.Find(id);
-            if (trips == null)
+            SendEmail sendEmail = db.SendEmails.Find(id);
+            if (sendEmail == null)
             {
                 return HttpNotFound();
             }
-            return View(trips);
+            return View(sendEmail);
         }
 
-        // POST: Trips/Edit/5
+        // POST: SendEmails/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TripId,TripType,TripName,TripLocation,Duration,StartDate,EndDate,Path")] Trips trips)
+        public ActionResult Edit([Bind(Include = "Id,ToEmail,Subject,Content")] SendEmail sendEmail)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(trips).State = EntityState.Modified;
+                db.Entry(sendEmail).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(trips);
+            return View(sendEmail);
         }
 
-        [Authorize(Roles = "admin")]
-        // GET: Trips/Delete/5
+        // GET: SendEmails/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Trips trips = db.Trips.Find(id);
-            if (trips == null)
+            SendEmail sendEmail = db.SendEmails.Find(id);
+            if (sendEmail == null)
             {
                 return HttpNotFound();
             }
-            return View(trips);
+            return View(sendEmail);
         }
 
-        // POST: Trips/Delete/5
+        // POST: SendEmails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Trips trips = db.Trips.Find(id);
-            db.Trips.Remove(trips);
+            SendEmail sendEmail = db.SendEmails.Find(id);
+            db.SendEmails.Remove(sendEmail);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -144,15 +165,5 @@ namespace WildernessOdyssey.Controllers
             }
             base.Dispose(disposing);
         }
-
-
-
-        //[HttpPost]
-        //public ActionResult Index(HttpPostedFileBase postedFile)
-        //{
-           
-        //    return View();
-        //}
-
     }
 }

@@ -12,15 +12,11 @@ namespace WildernessOdyssey.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Trips
+    public partial class C__MigrationHistory
     {
-        public int TripId { get; set; }
-        public string TripType { get; set; }
-        public string TripName { get; set; }
-        public string TripLocation { get; set; }
-        public string Duration { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public string Path { get; set; }
+        public string MigrationId { get; set; }
+        public string ContextKey { get; set; }
+        public byte[] Model { get; set; }
+        public string ProductVersion { get; set; }
     }
 }
