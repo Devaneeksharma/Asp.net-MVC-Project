@@ -61,11 +61,11 @@ namespace WildernessOdyssey
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "1053023764841-16pts12rebt47588lbo8vg7eqjq6d3mh.apps.googleusercontent.com",
+                ClientSecret = "dN3hTY7Z9yfCir9uEVzfYvdY"
+            });
         }
     }
 }
