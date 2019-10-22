@@ -35,5 +35,7 @@ namespace WildernessOdyssey.Models
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<SendEmail> SendEmails { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<UsersBooking> UsersBookings { get; set; }
     }
 }

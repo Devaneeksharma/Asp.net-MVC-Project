@@ -5,16 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WildernessModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="__MigrationHistory">
-          <Key>
-            <PropertyRef Name="MigrationId" />
-            <PropertyRef Name="ContextKey" />
-          </Key>
-          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
-          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
-          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
-        </EntityType>
         <EntityType Name="Activities">
           <Key>
             <PropertyRef Name="Id" />
@@ -76,7 +66,27 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
-        <EntityType Name="SendEmail">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Locations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="LocationName" Type="nchar" MaxLength="10" />
+          <Property Name="Latitude" Type="nchar" MaxLength="10" />
+          <Property Name="Longitude" Type="nchar" MaxLength="10" />
+          <Property Name="picture" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="SendEmails">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -98,6 +108,9 @@
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="Path" Type="varchar" MaxLength="50" />
+          <Property Name="Latitude" Type="numeric" Precision="10" Scale="8" />
+          <Property Name="Longitude" Type="numeric" Precision="11" Scale="8" />
+          <Property Name="MapDesCription" Type="nvarchar" MaxLength="11" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -109,6 +122,29 @@
           <Property Name="EmailId" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Phone" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="UsersBookings">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cost" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RattingScale" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Comments" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TripsTripId" Type="int" Nullable="false" />
+          <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AspNetUserUsersBooking">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UsersBookings" Type="Self.UsersBookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersBookings">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -165,17 +201,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TripsUsersBooking">
+          <End Role="Trips" Type="Self.Trips" Multiplicity="1" />
+          <End Role="UsersBookings" Type="Self.UsersBookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trips">
+              <PropertyRef Name="TripId" />
+            </Principal>
+            <Dependent Role="UsersBookings">
+              <PropertyRef Name="TripsTripId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WildernessModelStoreContainer">
-          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Activities" EntityType="Self.Activities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SendEmail" EntityType="Self.SendEmail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SendEmails" EntityType="Self.SendEmails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Trips" EntityType="Self.Trips" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersBookings" EntityType="Self.UsersBookings" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AspNetUserUsersBooking" Association="Self.FK_AspNetUserUsersBooking">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UsersBookings" EntitySet="UsersBookings" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -191,6 +245,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TripsUsersBooking" Association="Self.FK_TripsUsersBooking">
+            <End Role="Trips" EntitySet="Trips" />
+            <End Role="UsersBookings" EntitySet="UsersBookings" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -224,6 +282,16 @@
             <End Role="AspNetUserRole" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <EntitySet Name="SendEmails" EntityType="WildernessModel.SendEmail" />
+          <EntitySet Name="Locations" EntityType="WildernessModel.Location" />
+          <EntitySet Name="UsersBookings" EntityType="WildernessModel.UsersBooking" />
+          <AssociationSet Name="TripsUsersBooking" Association="WildernessModel.TripsUsersBooking">
+            <End Role="Trips" EntitySet="Trips" />
+            <End Role="UsersBooking" EntitySet="UsersBookings" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserUsersBooking" Association="WildernessModel.AspNetUserUsersBooking">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UsersBooking" EntitySet="UsersBookings" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -247,6 +315,10 @@
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Path" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UsersBookings" Relationship="WildernessModel.TripsUsersBooking" FromRole="Trips" ToRole="UsersBooking" />
+          <Property Name="Latitude" Type="Decimal" Precision="10" Scale="8" />
+          <Property Name="Longitude" Type="Decimal" Precision="11" Scale="8" />
+          <Property Name="MapDesCription" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Activities">
           <Key>
@@ -326,6 +398,7 @@
           <NavigationProperty Name="AspNetUserClaims" Relationship="WildernessModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="WildernessModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="AspNetUserRoles" Relationship="WildernessModel.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserRole" />
+          <NavigationProperty Name="UsersBookings" Relationship="WildernessModel.AspNetUserUsersBooking" FromRole="AspNetUser" ToRole="UsersBooking" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
           <End Type="WildernessModel.AspNetRole" Role="AspNetRole" Multiplicity="1">
@@ -393,6 +466,53 @@
           <Property Name="Content" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Path" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LocationName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Latitude" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Longitude" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="picture" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UsersBooking">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cost" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="RattingScale" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Comments" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Trip" Relationship="WildernessModel.TripsUsersBooking" FromRole="UsersBooking" ToRole="Trips" />
+          <Property Name="TripsTripId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="WildernessModel.AspNetUserUsersBooking" FromRole="UsersBooking" ToRole="AspNetUser" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="TripsUsersBooking">
+          <End Type="WildernessModel.Trips" Role="Trips" Multiplicity="1" />
+          <End Type="WildernessModel.UsersBooking" Role="UsersBooking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trips">
+              <PropertyRef Name="TripId" />
+            </Principal>
+            <Dependent Role="UsersBooking">
+              <PropertyRef Name="TripsTripId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserUsersBooking">
+          <End Type="WildernessModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="WildernessModel.UsersBooking" Role="UsersBooking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersBooking">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -413,7 +533,9 @@
     <EntitySetMapping Name="Trips">
       <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.Trips)">
         <MappingFragment StoreEntitySet="Trips">
-          <ScalarProperty Name="Path" ColumnName="Path" />
+          <ScalarProperty Name="MapDesCription" ColumnName="MapDesCription" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="TripId" ColumnName="TripId" />
           <ScalarProperty Name="TripType" ColumnName="TripType" />
           <ScalarProperty Name="TripName" ColumnName="TripName" />
@@ -421,6 +543,7 @@
           <ScalarProperty Name="Duration" ColumnName="Duration" />
           <ScalarProperty Name="StartDate" ColumnName="StartDate" />
           <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -434,81 +557,104 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-          <EntitySetMapping Name="C__MigrationHistory">
-            <EntityTypeMapping TypeName="WildernessModel.C__MigrationHistory">
-              <MappingFragment StoreEntitySet="__MigrationHistory">
-                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
-                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="WildernessModel.AspNetRole">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="WildernessModel.AspNetUserClaim">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="WildernessModel.AspNetUserLogin">
-              <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserRoles">
-            <EntityTypeMapping TypeName="WildernessModel.AspNetUserRole">
-              <MappingFragment StoreEntitySet="AspNetUserRoles">
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="WildernessModel.AspNetUser">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SendEmails">
-            <EntityTypeMapping TypeName="WildernessModel.SendEmail">
-              <MappingFragment StoreEntitySet="SendEmail">
-                <ScalarProperty Name="Path" ColumnName="Path" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Subject" ColumnName="Subject" />
-                <ScalarProperty Name="ToEmail" ColumnName="ToEmail" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.C__MigrationHistory)">
+        <MappingFragment StoreEntitySet="C__MigrationHistory">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.AspNetRole)">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.AspNetUserClaim)">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.AspNetUserLogin)">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.AspNetUserRole)">
+        <MappingFragment StoreEntitySet="AspNetUserRoles">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.AspNetUser)">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SendEmails">
+      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.SendEmail)">
+        <MappingFragment StoreEntitySet="SendEmails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ToEmail" ColumnName="ToEmail" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.Location)">
+        <MappingFragment StoreEntitySet="Locations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="picture" ColumnName="picture" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UsersBookings">
+      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.UsersBooking)">
+        <MappingFragment StoreEntitySet="UsersBookings">
+          <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="RattingScale" ColumnName="RattingScale" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="TripsTripId" ColumnName="TripsTripId" />
+          <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

@@ -7,6 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    padding-top: 100px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -29,11 +30,7 @@ textarea {
     margin-bottom: 300px;
 }
 
-.searchbtn {
 
-    padding-top: 30px;
-
-}
 
 /*body {
     background-image: url("images/wilderness.jpeg");

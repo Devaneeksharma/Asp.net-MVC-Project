@@ -9,15 +9,26 @@ using System.Web.Mvc;
 using WildernessOdyssey.Models;
 using System.IO;
 
+using Microsoft.AspNet.Identity;
+
 namespace WildernessOdyssey.Controllers
 {
     public class TripsController : Controller
     {
         private WildernessModelContainer db = new WildernessModelContainer();
 
+        
         // GET: Trips
-        public ActionResult Index()
+        public ActionResult Index(DateTime? startDate, DateTime? endDate)
         {
+            if (startDate != null & endDate != null)
+            {
+                var tripFil = from d in db.Trips
+                              select d;
+                var result = tripFil.Where(s => s.StartDate >= startDate && s.EndDate <= endDate);
+                return View(result);
+            }
+
             return View(db.Trips.ToList());
         }
 
@@ -49,7 +60,7 @@ namespace WildernessOdyssey.Controllers
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TripId,TripType,TripName,TripLocation,Duration,StartDate,EndDate,Path")] Trips trips,HttpPostedFileBase postedFile)
+        public ActionResult Create([Bind(Include = "TripId,TripType,TripName,TripLocation,Duration,StartDate,EndDate,Path,MapDesc,Longitude,Latitude,MapDesCription")] Trips trips,HttpPostedFileBase postedFile)
         {
 
             ModelState.Clear();
@@ -98,10 +109,21 @@ namespace WildernessOdyssey.Controllers
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TripId,TripType,TripName,TripLocation,Duration,StartDate,EndDate,Path")] Trips trips)
+        public ActionResult Edit([Bind(Include = "TripId,TripType,TripName,TripLocation,Duration,StartDate,EndDate,Path,MapDesc,Longitude,Latitude,MapDesCription")] Trips trips, HttpPostedFileBase postedFile)
         {
             if (ModelState.IsValid)
             {
+                //if (postedFile != null)
+                //{
+                //    var myUniqueFileName = string.Format(@"{0}", Guid.NewGuid());
+                //    trips.Path = myUniqueFileName;
+                //    string path = Server.MapPath("~/Content/images/");
+                //    string fileExtension = Path.GetExtension(postedFile.FileName);
+                //    string filePath = trips.Path + fileExtension;
+                //    trips.Path = filePath;
+                //    postedFile.SaveAs(path + trips.Path);
+                //    ViewBag.Message = "File uploaded successfully.";
+                //}
                 db.Entry(trips).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -145,12 +167,62 @@ namespace WildernessOdyssey.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult Booking(int id)
+        {
+            var user = User.Identity.GetUserId();
+            if (user != null)
+            {
+                try
+                {
+                    UsersBooking userBooking = new UsersBooking();
+                    userBooking.BookingId = new int();
+                    userBooking.AspNetUserId = user;
+                    userBooking.TripsTripId = id;
+                    userBooking.Cost = "1000";
+                    userBooking.Comments = "";
+                    userBooking.RattingScale = "";
+                    db.UsersBookings.Add(userBooking);
+                    db.SaveChanges();
+                    ViewBag.Message = "Thank you! Your Booking is confirmed.";
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException dve)
+                {
+                    ViewBag.Message = "Something went wrong. Please try again.";
 
+                }
+            }
+            return View("Index",db.Trips.ToList());
+
+            //RedirectToAction("Create", "UsersBookings", new { id = "Create" });
+
+
+            //           var controller = DependencyResolver.Current.GetService<UsersBookingsController>();
+            //           controller.BookingPage(id);
+            //return result;
+
+
+        }
+
+        
+
+        // GET: Trips
+        public ActionResult TripMap(DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate != null & endDate != null)
+            {
+                var tripFil = from d in db.Trips
+                              select d;
+                var result = tripFil.Where(s => s.StartDate >= startDate && s.EndDate <= endDate);
+                return View(result);
+            }
+
+            return View(db.Trips.ToList());
+        }
 
         //[HttpPost]
         //public ActionResult Index(HttpPostedFileBase postedFile)
         //{
-           
+
         //    return View();
         //}
 

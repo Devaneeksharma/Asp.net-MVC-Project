@@ -7,11 +7,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h1> @ViewBag.Message </h1>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 
 <table class="table">
     <tr>
@@ -36,6 +37,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Path)
         </th>
+      
     </tr>
 
     @foreach (var item in Model)
@@ -63,8 +65,10 @@
             <td>
                 <img class="img-thumbnail" style="height:100px" src="@Url.Content("~/Content/images/"+ item.Path)" />
             </td>
+
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.TripId }) |
+                @Html.ActionLink("Book", "Booking", new { id = item.TripId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.TripId }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.TripId })
             </td>

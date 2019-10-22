@@ -14,6 +14,12 @@ namespace WildernessOdyssey.Models
     
     public partial class Trips
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Trips()
+        {
+            this.UsersBookings = new HashSet<UsersBooking>();
+        }
+    
         public int TripId { get; set; }
         public string TripType { get; set; }
         public string TripName { get; set; }
@@ -22,5 +28,11 @@ namespace WildernessOdyssey.Models
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
         public string Path { get; set; }
+        public Nullable<decimal> Latitude { get; set; }
+        public Nullable<decimal> Longitude { get; set; }
+        public string MapDesCription { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UsersBooking> UsersBookings { get; set; }
     }
 }

@@ -1,0 +1,49 @@
+﻿
+@model IEnumerable<WildernessOdyssey.Models.Trips>
+
+@{
+    ViewBag.Title = "TripMap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="map" style="height:500px;padding-top:10px"></div>
+
+
+<table class="table">
+    <tr>
+
+        <th class="hide">
+            @Html.DisplayNameFor(model => model.MapDesCription)
+        </th>
+        <th class="hide">
+            @Html.DisplayNameFor(model => model.Latitude)
+        </th>
+        <th class="hide">
+            @Html.DisplayNameFor(model => model.Longitude)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="coordinates">
+           
+            <td class="description hide">
+                @Html.DisplayFor(modelItem => item.MapDesCription)
+            </td>
+            <td class="latitude hide">
+                @Html.DisplayFor(modelItem => item.Latitude)
+            </td>
+            <td class="longitude hide">
+                @Html.DisplayFor(modelItem => item.Longitude)
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/mapbox")
+}
+
+

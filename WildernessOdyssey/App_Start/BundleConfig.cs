@@ -25,6 +25,11 @@ namespace WildernessOdyssey
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lumen.css",
                       "~/Content/site.css"));
+
+            // I added the location.js to the bundle called mapbox.
+            bundles.Add(new ScriptBundle("~/bundles/mapbox").Include(
+            "~/Scripts/location.js"));
+           
         }
     }
 }

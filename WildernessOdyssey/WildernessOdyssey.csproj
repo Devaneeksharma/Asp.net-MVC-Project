@@ -357,9 +357,11 @@
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SendEmailsController.cs" />
     <Compile Include="Controllers\TripsController.cs" />
+    <Compile Include="Controllers\UsersBookingsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -387,6 +389,9 @@
       <DependentUpon>WildernessModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Location.cs">
+      <DependentUpon>WildernessModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SendEmail.cs">
       <DependentUpon>WildernessModel.tt</DependentUpon>
@@ -397,6 +402,10 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>WildernessModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UsersBooking.cs">
+      <DependentUpon>WildernessModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UsersBookingsViewModels.cs" />
     <Compile Include="Models\WildernessModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -434,7 +443,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\images\wilderness.jpeg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -559,6 +567,7 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.vi.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\location.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -611,9 +620,21 @@
     <Content Include="Views\SendEmails\Edit.cshtml" />
     <Content Include="Views\SendEmails\Index.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Locations\Create.cshtml" />
+    <Content Include="Views\Locations\Delete.cshtml" />
+    <Content Include="Views\Locations\Details.cshtml" />
+    <Content Include="Views\Locations\Edit.cshtml" />
+    <Content Include="Views\Locations\Index.cshtml" />
+    <Content Include="Views\UsersBookings\Create.cshtml" />
+    <Content Include="Views\UsersBookings\Delete.cshtml" />
+    <Content Include="Views\UsersBookings\Details.cshtml" />
+    <Content Include="Views\UsersBookings\Edit.cshtml" />
+    <Content Include="Views\UsersBookings\Index.cshtml" />
+    <Content Include="Views\Trips\TripMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\email\" />
+    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
