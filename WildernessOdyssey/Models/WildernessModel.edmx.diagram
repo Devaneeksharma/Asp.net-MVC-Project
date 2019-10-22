@@ -19,7 +19,6 @@
         <AssociationConnector Association="WildernessModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="WildernessModel.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" />
         <EntityTypeShape EntityType="WildernessModel.SendEmail" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="WildernessModel.Location" Width="1.5" PointX="0.75" PointY="3.75" />
         <AssociationConnector Association="WildernessModel.TripsBooking" />
         <AssociationConnector Association="WildernessModel.UserBooking" />
         <EntityTypeShape EntityType="WildernessModel.UsersBookings" Width="1.5" PointX="3.25" PointY="1" />

@@ -357,7 +357,6 @@
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SendEmailsController.cs" />
     <Compile Include="Controllers\TripsController.cs" />
@@ -389,9 +388,6 @@
       <DependentUpon>WildernessModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Location.cs">
-      <DependentUpon>WildernessModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SendEmail.cs">
       <DependentUpon>WildernessModel.tt</DependentUpon>
@@ -620,11 +616,6 @@
     <Content Include="Views\SendEmails\Edit.cshtml" />
     <Content Include="Views\SendEmails\Index.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Locations\Create.cshtml" />
-    <Content Include="Views\Locations\Delete.cshtml" />
-    <Content Include="Views\Locations\Details.cshtml" />
-    <Content Include="Views\Locations\Edit.cshtml" />
-    <Content Include="Views\Locations\Index.cshtml" />
     <Content Include="Views\UsersBookings\Create.cshtml" />
     <Content Include="Views\UsersBookings\Delete.cshtml" />
     <Content Include="Views\UsersBookings\Details.cshtml" />

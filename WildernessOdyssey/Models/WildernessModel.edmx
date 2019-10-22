@@ -76,16 +76,6 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
-        <EntityType Name="Locations">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="LocationName" Type="nchar" MaxLength="10" />
-          <Property Name="Latitude" Type="nchar" MaxLength="10" />
-          <Property Name="Longitude" Type="nchar" MaxLength="10" />
-          <Property Name="picture" Type="nchar" MaxLength="10" />
-        </EntityType>
         <EntityType Name="SendEmails">
           <Key>
             <PropertyRef Name="Id" />
@@ -221,7 +211,6 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SendEmails" EntityType="Self.SendEmails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Trips" EntityType="Self.Trips" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -282,7 +271,6 @@
             <End Role="AspNetUserRole" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <EntitySet Name="SendEmails" EntityType="WildernessModel.SendEmail" />
-          <EntitySet Name="Locations" EntityType="WildernessModel.Location" />
           <EntitySet Name="UsersBookings" EntityType="WildernessModel.UsersBooking" />
           <AssociationSet Name="TripsUsersBooking" Association="WildernessModel.TripsUsersBooking">
             <End Role="Trips" EntitySet="Trips" />
@@ -466,16 +454,6 @@
           <Property Name="Content" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Path" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
-        <EntityType Name="Location">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="LocationName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Latitude" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Longitude" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="picture" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-        </EntityType>
         <EntityType Name="UsersBooking">
           <Key>
             <PropertyRef Name="BookingId" />
@@ -629,17 +607,6 @@
           <ScalarProperty Name="Subject" ColumnName="Subject" />
           <ScalarProperty Name="Content" ColumnName="Content" />
           <ScalarProperty Name="Path" ColumnName="Path" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Locations">
-      <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.Location)">
-        <MappingFragment StoreEntitySet="Locations">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
-          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-          <ScalarProperty Name="picture" ColumnName="picture" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
