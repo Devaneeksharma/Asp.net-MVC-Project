@@ -13,21 +13,21 @@
 
 
 <table class="table">
-  
+
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Cost)
         </th>
-        @*<th>
-           
-                @Html.Hidden(model => model.RattingScale)
-            
-        </th>
         <th>
-            
-            @Html.HiddenFor(model => model.Comments)
-            
-        </th>*@
+
+         @Html.DisplayNameFor(model => model.RattingScale)
+
+            </th>
+            <th>
+
+                @Html.DisplayNameFor(model => model.Comments)
+
+            </th>
         <th>
             @Html.DisplayNameFor(model => model.Trip.TripType)
 
@@ -44,15 +44,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Cost)
             </td>
-            
-            @*<td>               
-                 @Html.HiddenFor(modelItem => item.RattingScale)                
-            </td>
+
             <td>
-               
-                 @Html.HiddenFor(modelItem => item.Comments)
-                
-            </td>*@
+                     @Html.DisplayFor(modelItem => item.RattingScale)
+                </td>
+                <td>
+
+                     @Html.DisplayFor(modelItem => item.Comments)
+
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Trip.TripType)
             </td>

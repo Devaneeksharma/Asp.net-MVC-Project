@@ -122,6 +122,7 @@
           <Property Name="Comments" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TripsTripId" Type="int" Nullable="false" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" />
         </EntityType>
         <Association Name="FK_AspNetUserUsersBooking">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -466,6 +467,7 @@
           <Property Name="TripsTripId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="WildernessModel.AspNetUserUsersBooking" FromRole="UsersBooking" ToRole="AspNetUser" />
           <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="TripsUsersBooking">
           <End Type="WildernessModel.Trips" Role="Trips" Multiplicity="1" />
@@ -613,7 +615,8 @@
     <EntitySetMapping Name="UsersBookings">
       <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.UsersBooking)">
         <MappingFragment StoreEntitySet="UsersBookings">
-          <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
           <ScalarProperty Name="Cost" ColumnName="Cost" />
           <ScalarProperty Name="RattingScale" ColumnName="RattingScale" />
           <ScalarProperty Name="Comments" ColumnName="Comments" />

@@ -9,70 +9,75 @@
 
 <h1> @ViewBag.Message </h1>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TripType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TripName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TripLocation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Duration)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Path)
-        </th>
-      
-    </tr>
-
-    @foreach (var item in Model)
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("admin"))
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TripType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TripName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TripLocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-
-            <td>
-                <img class="img-thumbnail" style="height:100px" src="@Url.Content("~/Content/images/"+ item.Path)" />
-            </td>
-
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.TripId }) |
-                @Html.ActionLink("Book", "Booking", new { id = item.TripId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.TripId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.TripId })
-            </td>
-        </tr>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
     }
+}
 
-</table>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TripType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TripName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TripLocation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Duration)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Path)
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TripType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TripName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TripLocation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Duration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+
+                    <td>
+                        <img class="img-thumbnail" style="height:100px" src="@Url.Content("~/Content/images/"+ item.Path)" />
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.TripId }) |
+                        @Html.ActionLink("Book", "Booking", new { id = item.TripId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.TripId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.TripId })
+                    </td>
+                </tr>
+            }
+
+        </table>

@@ -77,9 +77,14 @@ namespace WildernessOdyssey.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.TripsTripId = new SelectList(db.Trips, "TripId", "TripType", usersBooking.TripsTripId);
-            ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", usersBooking.AspNetUserId);
-            return View(usersBooking);
+            if (usersBooking.EndDate < DateTime.Now)
+            {
+                ViewBag.TripsTripId = new SelectList(db.Trips, "TripId", "TripType", usersBooking.TripsTripId);
+                ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", usersBooking.AspNetUserId);
+                return View(usersBooking);
+            }
+
+            return View("Index");
         }
 
         // POST: UsersBookings/Edit/5
@@ -87,13 +92,18 @@ namespace WildernessOdyssey.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookingId,Cost,RattingScale,Comments,TripsTripId,AspNetUserId")] UsersBooking usersBooking)
+        public ActionResult Edit([Bind(Include = "BookingId,Cost,RattingScale,Comments,TripsTripId,AspNetUserId,EndDate")] UsersBooking usersBooking, int? Rank)
         {
             if (ModelState.IsValid)
             {
+                if (Rank != null)
+                {
+                    usersBooking.RattingScale = Rank.ToString();
+                }
+               
                 db.Entry(usersBooking).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Ratting");
             }
             ViewBag.TripsTripId = new SelectList(db.Trips, "TripId", "TripType", usersBooking.TripsTripId);
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", usersBooking.AspNetUserId);
@@ -134,5 +144,59 @@ namespace WildernessOdyssey.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        //public ActionResult Ratting(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    UsersBooking usersBooking = db.UsersBookings.Find(id);
+            
+        //    if (usersBooking == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    if (usersBooking.EndDate < DateTime.Now)
+        //    {
+        //        ViewBag.TripsTripId = new SelectList(db.Trips, "TripId", "TripType", usersBooking.TripsTripId);
+        //        ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", usersBooking.AspNetUserId);
+        //        return View(usersBooking);
+        //    }
+
+        //    return View("Index");
+        //    //var usersBookings = db.UsersBookings.Include(u => u.Trip).Include(u => u.AspNetUser).Where(u=>u.Trip.EndDate < DateTime.Now);
+
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Ratting([Bind(Include = "BookingId,Cost,RattingScale,Comments,TripsTripId,AspNetUserId,EndDate")] UsersBooking usersBooking, int? Rank, string Description)
+        //{
+        //    var po = Rank.Value;
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            usersBooking.RattingScale = po.ToString();
+        //            usersBooking.Comments = Description;
+        //            usersBooking.Cost = "1000";
+
+        //            db.Entry(usersBooking).State = EntityState.Modified;
+        //            db.SaveChanges();
+        //            return RedirectToAction("Index");
+                
+        //        }
+        //        catch (System.Data.Entity.Validation.DbEntityValidationException dve)
+        //    {
+        //            throw dve;
+        //    }
+        //    }
+        //    ViewBag.TripsTripId = new SelectList(db.Trips, "TripId", "TripType", usersBooking.TripsTripId);
+        //    ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", usersBooking.AspNetUserId);
+        //    return View(usersBooking);
+        //}
+
     }
 }

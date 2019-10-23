@@ -20,6 +20,7 @@ namespace WildernessOdyssey.Models
         public string Comments { get; set; }
         public int TripsTripId { get; set; }
         public string AspNetUserId { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
     
         public virtual Trips Trip { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }

@@ -384,6 +384,7 @@
     <Compile Include="Models\AspNetUserRole.cs">
       <DependentUpon>WildernessModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChartViewModel.cs" />
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>WildernessModel.tt</DependentUpon>
     </Compile>
@@ -439,6 +440,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\star-empty-lg.png" />
+    <Content Include="Content\images\star-fill-lg.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -565,6 +568,7 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
     <Content Include="Scripts\location.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Ratting.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -622,10 +626,10 @@
     <Content Include="Views\UsersBookings\Edit.cshtml" />
     <Content Include="Views\UsersBookings\Index.cshtml" />
     <Content Include="Views\Trips\TripMap.cshtml" />
+    <Content Include="Views\UsersBookings\Ratting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\email\" />
-    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -1,11 +1,10 @@
-﻿
-@model WildernessOdyssey.Models.Trips
+﻿@model WildernessOdyssey.Models.Trips
 @section header {
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
     <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
-
+   
 }
 
 @{
@@ -16,29 +15,79 @@
 @using (Html.BeginForm("Index", "Trips", FormMethod.Get))
 {
     <div class=" form-group date-grid row">
-
         <div class="date_pickercls col-lg-4">
             <label for="seldate">Start Date</label>
             @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "datepicker" } })
             <span class="glyphicon glyphicon-calendar"></span>
-        </div>
-
-        <div class="date_pickercls  col-lg-4">
+        </div><div class="date_pickercls  col-lg-4">
             <label for="seldate">End Date</label>
             @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "datepicker" } })
             <span class="glyphicon glyphicon-calendar"></span>
-        </div>
-
-        <div class="searchbtn  btn-link col-lg-4">
-            
-                <input type="submit" value="Search" />
-          
-        </div>
-
+        </div><div class="searchbtn  btn-link col-lg-4"><input type="submit" value="Search" /></div>
     </div>
 }
+<div>
+<div id="chartContainer" style="float:left;height: 370px; width: 60%; padding-bottom:20px;"></div>
+<div id="chartContainerDo" style="float:left;height: 370px; width: 40%;padding-bottom:20px;"></div>
+</div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script>
 
-    $('.datepicker').datepicker({ "startDate": '+0d', "dateFormat": 'MM/dd/yyyy', "autoclose": true });
+    $('.datepicker').datepicker({ "dateFormat": 'MM/dd/yyyy', "autoclose": true });
 
+    window.onload = function () {
+
+        var result = @Html.Raw(ViewBag.DataPoints);
+        var dataPoints =[];
+        for (var i = 0; i < result.length; i++){
+            dataPoints.push({ label: result[i].label, y: result[i].y });
+        }
+
+        console.log(dataPoints);
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+                text: "No of Satisfied Customers Till Date."
+            },
+            axisY: {
+                title: "Customers Count",
+                gridThickness: 0
+            },
+            data: [{
+                type: "column",
+                dataPoints: dataPoints,
+	}]
+        });
+        chart.render();
+
+        var result1 = @Html.Raw(ViewBag.dataPointDo);
+        console.log(result1);
+        var dataPoints1 =[];
+        for (var i = 0; i < result1.length; i++){
+            dataPoints1.push({ label: result1[i].label, y: result1[i].z });
+        }
+
+        // for the doughnut chart
+        var chartDonutDo = new CanvasJS.Chart("chartContainerDo", {
+	        animationEnabled: true,
+	        title: {
+		        text: "Reviews by the Traveller."
+	        },
+	        data: [{
+		        type: "doughnut",
+		        startAngle: 60,
+		        indexLabelFontSize: 16,
+		        indexLabel: "{label} - {y}%",
+		        toolTipContent: "<b>{label}:</b> {y}%",
+		        dataPoints: dataPoints1
+	        }]
+        });
+        chartDonutDo.render();
+
+
+
+    };
+
+    //"startDate": '+0d'
 </script>

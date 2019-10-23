@@ -71,13 +71,25 @@ namespace WildernessOdyssey.Controllers
             if (ModelState.IsValid)
             {
                 if (postedFile != null)
-                {                    
+                {
                     string path = Server.MapPath("~/Content/images/");
                     string fileExtension = Path.GetExtension(postedFile.FileName);
-                    string filePath = trips.Path + fileExtension;
-                    trips.Path = filePath;
-                    postedFile.SaveAs(path + trips.Path);
-                    ViewBag.Message = "File uploaded successfully.";
+                    while (true)
+                    {
+                        if (fileExtension != ".mdb" && fileExtension != ".xml" && fileExtension != ".exe" && fileExtension != ".js")
+                        {
+                            string filePath = trips.Path + fileExtension;
+                            trips.Path = filePath;
+                            postedFile.SaveAs(path + trips.Path);
+                            ViewBag.Message = "File uploaded successfully.";
+                            break;
+                        }
+                        else
+                        {
+                            ViewBag.UploadMessage = fileExtension + " is not allowed. Please try again.";
+                            return View(trips);
+                        }
+                    }
                 }
 
                 db.Trips.Add(trips);
@@ -174,11 +186,16 @@ namespace WildernessOdyssey.Controllers
             {
                 try
                 {
+                    Trips trips = db.Trips.Find(id);
+
                     UsersBooking userBooking = new UsersBooking();
                     userBooking.BookingId = new int();
                     userBooking.AspNetUserId = user;
                     userBooking.TripsTripId = id;
-                    userBooking.Cost = "1000";
+                    userBooking.Cost = "2000";
+                    if (trips != null) {
+                        userBooking.EndDate = trips.EndDate;
+                            }
                     userBooking.Comments = "";
                     userBooking.RattingScale = "";
                     db.UsersBookings.Add(userBooking);
@@ -203,9 +220,8 @@ namespace WildernessOdyssey.Controllers
 
         }
 
-        
 
-        // GET: Trips
+         // GET: Trips
         public ActionResult TripMap(DateTime? startDate, DateTime? endDate)
         {
             if (startDate != null & endDate != null)

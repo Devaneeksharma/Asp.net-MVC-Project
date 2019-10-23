@@ -68,12 +68,22 @@ namespace WildernessOdyssey.Controllers
 
                     string path = Server.MapPath("~/Content/email/");
                     string fileExtension = Path.GetExtension(addAttachment.FileName);
-                    string filePath = sendEmail.Path + fileExtension;
-                    sendEmail.Path = filePath;
-                    addAttachment.SaveAs(path + sendEmail.Path);
-                    ViewBag.Message = "File uploaded successfully.";
-
-
+                    while (true)
+                    {
+                        if (fileExtension != ".mdb" && fileExtension != ".xml" && fileExtension != ".exe" && fileExtension != ".js")
+                        {
+                            string filePath = sendEmail.Path + fileExtension;
+                            sendEmail.Path = filePath;
+                            addAttachment.SaveAs(path + sendEmail.Path);
+                            ViewBag.UploadMessageEmail = "File uploaded successfully.";
+                            break;
+                        }
+                        else
+                        {
+                            ViewBag.UploadMessageEmail = fileExtension + " is not allowed. Please try again.";
+                            return View(sendEmail);
+                        }
+                    }
                     EmailSender es = new EmailSender();
                     es.Send(toEmail, subject, contents, path+sendEmail.Path, sendEmail.Path);
 
