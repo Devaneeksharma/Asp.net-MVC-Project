@@ -32,7 +32,7 @@ namespace WildernessOdyssey.Controllers
             ViewBag.DataPoints = Newtonsoft.Json.JsonConvert.SerializeObject(dataPoints);
 
             List<DataPoint> dataPointDo = new List<DataPoint>();
-            var rating = db.UsersBookings.Select(n => new
+            var rating = db.UsersBookings.Where(s=>s.RattingScale !=null).Select(n => new
             {
                 rat = n.RattingScale,
             });
@@ -43,13 +43,14 @@ namespace WildernessOdyssey.Controllers
                 if (!string.IsNullOrEmpty(e.rat))
                 {
                     totalRat = totalRat + int.Parse(e.rat);
+                    i++;
                 }
-                i++;
+                
             }
             var totalRecord = (i * 5);
             double averageRatting = (double)totalRat/totalRecord;
-            dataPointDo.Add(new DataPoint("Travel Again!", averageRatting));
-            dataPointDo.Add(new DataPoint("Maybe Not.", (5-averageRatting)));
+            dataPointDo.Add(new DataPoint("Travel Again!", averageRatting*5));
+            dataPointDo.Add(new DataPoint("Maybe Not.", (5-(averageRatting*5))));
             ViewBag.dataPointDo = Newtonsoft.Json.JsonConvert.SerializeObject(dataPointDo);
             return View();
            // return View();

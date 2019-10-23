@@ -10,6 +10,7 @@ using WildernessOdyssey.Models;
 using System.IO;
 
 using Microsoft.AspNet.Identity;
+using WildernessOdyssey.Util;
 
 namespace WildernessOdyssey.Controllers
 {
@@ -60,9 +61,9 @@ namespace WildernessOdyssey.Controllers
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TripId,TripType,TripName,TripLocation,Duration,StartDate,EndDate,Path,MapDesc,Longitude,Latitude,MapDesCription")] Trips trips,HttpPostedFileBase postedFile)
+        public ActionResult Create([Bind(Include = "TripId,TripType,TripName,TripLocation,Duration,StartDate,EndDate,Path,MapDesc,Longitude,Latitude,MapDesCription")] Trips trips,HttpPostedFileBase postedFile,bool chkBulk)
         {
-
+            var contents = string.Empty;
             ModelState.Clear();
             var myUniqueFileName = string.Format(@"{0}", Guid.NewGuid());
             trips.Path = myUniqueFileName;
@@ -81,13 +82,29 @@ namespace WildernessOdyssey.Controllers
                             string filePath = trips.Path + fileExtension;
                             trips.Path = filePath;
                             postedFile.SaveAs(path + trips.Path);
-                            ViewBag.Message = "File uploaded successfully.";
+                            ViewBag.UploadMessage = "File uploaded successfully.";
                             break;
                         }
                         else
                         {
                             ViewBag.UploadMessage = fileExtension + " is not allowed. Please try again.";
                             return View(trips);
+                        }
+                   }
+
+                    if (chkBulk)
+                    {
+                       contents = "Hi! New trip-" + trips.TripName + " is organised at " + trips.TripLocation + " from " + trips.StartDate.ToString() + " To " + trips.EndDate.ToString();
+                       var emailListUsers = db.AspNetUsers.Where(s => s.Email != null).Select(s=>s.Email).ToList();
+                        
+                        foreach(var em in emailListUsers)
+                        {
+                            EmailSender es = new EmailSender();
+                            es.Send(em, "New Trip at Wilderness Odyssey", contents, path + trips.Path, trips.Path);
+
+                            ViewBag.ResultEmail = "Bulk Email has been send sucessfully.";  
+
+
                         }
                     }
                 }
@@ -187,20 +204,28 @@ namespace WildernessOdyssey.Controllers
                 try
                 {
                     Trips trips = db.Trips.Find(id);
-
-                    UsersBooking userBooking = new UsersBooking();
-                    userBooking.BookingId = new int();
-                    userBooking.AspNetUserId = user;
-                    userBooking.TripsTripId = id;
-                    userBooking.Cost = "2000";
-                    if (trips != null) {
-                        userBooking.EndDate = trips.EndDate;
-                            }
-                    userBooking.Comments = "";
-                    userBooking.RattingScale = "";
-                    db.UsersBookings.Add(userBooking);
-                    db.SaveChanges();
-                    ViewBag.Message = "Thank you! Your Booking is confirmed.";
+                    var tripIDBooked = db.UsersBookings.Where(u => u.TripsTripId == trips.TripId && u.AspNetUserId == user).ToList();
+                    if (tripIDBooked.Count==0)
+                    {
+                        UsersBooking userBooking = new UsersBooking();
+                        userBooking.BookingId = new int();
+                        userBooking.AspNetUserId = user;
+                        userBooking.TripsTripId = id;
+                        userBooking.Cost = "2000";
+                        if (trips != null)
+                        {
+                            userBooking.EndDate = trips.EndDate;
+                        }
+                        userBooking.Comments = "";
+                        userBooking.RattingScale = "";
+                        db.UsersBookings.Add(userBooking);
+                        db.SaveChanges();
+                        ViewBag.Message = "Thank you! Your Booking is confirmed.";
+                    }
+                    else
+                    {
+                        ViewBag.Message = "You are already booked to this trip. please Try again!";
+                    }
                 }
                 catch (System.Data.Entity.Validation.DbEntityValidationException dve)
                 {

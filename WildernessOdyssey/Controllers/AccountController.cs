@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WildernessOdyssey.Models;
+using WildernessOdyssey.Util;
 
 namespace WildernessOdyssey.Controllers
 {
@@ -152,6 +153,7 @@ namespace WildernessOdyssey.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -164,6 +166,13 @@ namespace WildernessOdyssey.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    EmailSender es = new EmailSender();
+                    string content = "Thank you for registering with us! Stay tuned for latest travel udates and adventure";
+                    es.Send(model.Email,"Welcome to Wildlife Odyssey", content,string.Empty, string.Empty);
+
+                    //ModelState.Clear();
+                    
 
                     return RedirectToAction("Index", "Users");
 

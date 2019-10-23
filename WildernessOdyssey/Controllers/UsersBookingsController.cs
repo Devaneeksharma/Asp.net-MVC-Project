@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using WildernessOdyssey.Models;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity.Migrations;
 
 namespace WildernessOdyssey.Controllers
 {
@@ -18,8 +19,11 @@ namespace WildernessOdyssey.Controllers
         // GET: UsersBookings
         public ActionResult Index()
         {
-            var usersBookings = db.UsersBookings.Include(u => u.Trip).Include(u => u.AspNetUser);
-            return View(usersBookings.ToList());
+            //var usersBookings = db.UsersBookings.Include(u => u.Trip).Include(u => u.AspNetUser);
+            var currUserId=User.Identity.GetUserId();
+            var booking=db.UsersBookings.Where(u => u.AspNetUserId == currUserId && string.IsNullOrEmpty(u.RattingScale) && u.EndDate < DateTime.Now && u.EndDate != null);
+           
+            return View(booking.ToList());
         }
 
         // GET: UsersBookings/Details/5
@@ -94,20 +98,25 @@ namespace WildernessOdyssey.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "BookingId,Cost,RattingScale,Comments,TripsTripId,AspNetUserId,EndDate")] UsersBooking usersBooking, int? Rank)
         {
-            if (ModelState.IsValid)
+            var userBook=db.UsersBookings.AsNoTracking().Where(u=>u.BookingId == usersBooking.BookingId).FirstOrDefault();
+            if (string.IsNullOrEmpty(userBook.RattingScale))
             {
-                if (Rank != null)
+                if (ModelState.IsValid)
                 {
-                    usersBooking.RattingScale = Rank.ToString();
-                }
-               
-                db.Entry(usersBooking).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Ratting");
+                    if (Rank != null)
+                    {
+                        usersBooking.RattingScale = Rank.ToString();
+                    }
+                    //db.UsersBookings.AsNoTracking().Where(x=>x.BookingId == userBook.BookingId);
+                    db.Entry(usersBooking).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Ratting");
+                }                
             }
+
             ViewBag.TripsTripId = new SelectList(db.Trips, "TripId", "TripType", usersBooking.TripsTripId);
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", usersBooking.AspNetUserId);
-            return View(usersBooking);
+            return View("Index");
         }
 
         // GET: UsersBookings/Delete/5
@@ -146,29 +155,15 @@ namespace WildernessOdyssey.Controllers
         }
 
 
-        //public ActionResult Ratting(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    UsersBooking usersBooking = db.UsersBookings.Find(id);
-            
-        //    if (usersBooking == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    if (usersBooking.EndDate < DateTime.Now)
-        //    {
-        //        ViewBag.TripsTripId = new SelectList(db.Trips, "TripId", "TripType", usersBooking.TripsTripId);
-        //        ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", usersBooking.AspNetUserId);
-        //        return View(usersBooking);
-        //    }
+        public ActionResult Ratting()
+        {
+            var currUserId = User.Identity.GetUserId();
+            var booking = db.UsersBookings.Where(u => u.AspNetUserId == currUserId && !string.IsNullOrEmpty(u.RattingScale));
 
-        //    return View("Index");
-        //    //var usersBookings = db.UsersBookings.Include(u => u.Trip).Include(u => u.AspNetUser).Where(u=>u.Trip.EndDate < DateTime.Now);
+            return View(booking.ToList());
+            //var usersBookings = db.UsersBookings.Include(u => u.Trip).Include(u => u.AspNetUser).Where(u=>u.Trip.EndDate < DateTime.Now);
 
-        //}
+        }
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
@@ -186,7 +181,7 @@ namespace WildernessOdyssey.Controllers
         //            db.Entry(usersBooking).State = EntityState.Modified;
         //            db.SaveChanges();
         //            return RedirectToAction("Index");
-                
+
         //        }
         //        catch (System.Data.Entity.Validation.DbEntityValidationException dve)
         //    {
