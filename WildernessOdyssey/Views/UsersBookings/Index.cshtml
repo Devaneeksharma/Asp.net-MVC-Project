@@ -5,11 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>Trips Pending for your Reviews.</h2>
 
 
 <table class="table">
@@ -60,9 +56,9 @@
                 @Html.DisplayFor(modelItem => item.AspNetUser.Email)
             </td>
             <td>
-                @Html.ActionLink("Reviews", "Edit", new { id = item.BookingId }) |
-                @Html.ActionLink("Details", "Ratting", new { id = item.BookingId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.BookingId })
+                @Html.ActionLink("Reviews", "Edit", new { id = item.BookingId }) 
+                @*@Html.ActionLink("Details", "Ratting", new { id = item.BookingId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.BookingId })*@
             </td>
         </tr>
     }

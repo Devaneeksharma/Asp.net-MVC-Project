@@ -15,7 +15,7 @@ namespace WildernessOdyssey.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private WildernessModelContainer db = new WildernessModelContainer();
         public ManageController()
         {
         }
@@ -220,19 +220,24 @@ namespace WildernessOdyssey.Controllers
             return View();
         }
 
+        // have been implemented in ratting and userbooking
+        //// GET: /Manage/ChangePassword
+        //public ActionResult BookingHistory()
+        //{
+        //    var currUserId = User.Identity.GetUserId();
+        //    var booking = db.UsersBookings.Where(u => u.AspNetUserId == currUserId && !string.IsNullOrEmpty(u.RattingScale));
 
-        // GET: /Manage/ChangePassword
-        public ActionResult BookingHistory()
-        {
-            return View();
-        }
+        //    return View(booking.ToList());
 
-        [HttpPost]
+        //}
 
-        public ActionResult BookingHistory(BookingHistoryViewModel model){        
+        //[HttpPost]
+
+        //public ActionResult BookingHistory(BookingHistoryViewModel model){        
            
-                return View(model);
-        }
+        //        return View(model);
+        //}
+
 
         //
         // POST: /Manage/ChangePassword

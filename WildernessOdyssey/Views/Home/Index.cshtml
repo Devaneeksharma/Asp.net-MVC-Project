@@ -17,13 +17,15 @@
     <div class=" form-group date-grid row">
         <div class="date_pickercls col-lg-4">
             <label for="seldate">Start Date</label>
-            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "datepicker" } })
+            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "startdate datepicker"} })
+                      
             <span class="glyphicon glyphicon-calendar"></span>
         </div><div class="date_pickercls  col-lg-4">
-            <label for="seldate">End Date</label>
-            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "datepicker" } })
-            <span class="glyphicon glyphicon-calendar"></span>
-        </div><div class="searchbtn  btn-link col-lg-4"><input type="submit" value="Search" /></div>
+    <label for="seldate">End Date</label>
+    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "enddate datepicker" } })
+ 
+    <span class="glyphicon glyphicon-calendar"></span>
+</div><div class="searchbtn  btn-link col-lg-4"><input type="submit" value="Search" /></div>
     </div>
 }
 <div>
@@ -33,7 +35,24 @@
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script>
 
-    $('.datepicker').datepicker({ "dateFormat": 'MM/dd/yyyy', "autoclose": true });
+   $('.datepicker').datepicker({ "dateFormat": 'MM/dd/yyyy',"startDate": '+0d' ,"autoclose": true });
+
+
+    //$('#startdate').datepicker({
+    //    dateFormat: 'MM/dd/yyyy',
+    //    todayBtn:  1,
+    //    autoclose: true,
+    //}).on('changeDate', function (selected) {
+    //    var minDate = new Date(selected.date.valueOf());
+    //    $('#enddate').datepicker('startdate', minDate);
+    //});
+
+    //$('#enddate').datepicker()
+    //    .on('changeDate', function (selected) {
+    //        var maxDate = new Date(selected.date.valueOf());
+    //        $('#startdate').datepicker('enddate', maxDate);
+    //    });
+
 
     window.onload = function () {
 
@@ -78,8 +97,8 @@
 		        type: "doughnut",
 		        startAngle: 60,
 		        indexLabelFontSize: 16,
-		        indexLabel: "{label} - {y}%",
-		        toolTipContent: "<b>{label}:</b> {y}%",
+		        indexLabel: "{label} - {y}",
+		        toolTipContent: "<b>{label}:</b> {y}",
 		        dataPoints: dataPoints1
 	        }]
         });

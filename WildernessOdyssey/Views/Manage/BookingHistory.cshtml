@@ -1,10 +1,62 @@
-﻿@model WildernessOdyssey.Models.BookingHistoryViewModel
+﻿@model IEnumerable<WildernessOdyssey.Models.UsersBooking>
 
-@using (Html.BeginForm("BookingHistory", "BookingHistory", FormMethod.Post))
-{
-
-    <table class="table" id="bookid">
-        
-    </table>
-
+@{
+    ViewBag.Title = "BookingHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<h2>Index</h2>
+
+@*have been implemented in ratting and userbooking*@
+<table class="table">
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost)
+        </th>
+        <th>
+
+            @Html.DisplayNameFor(model => model.RattingScale)
+
+        </th>
+        <th>
+
+            @Html.DisplayNameFor(model => model.Comments)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Trip.TripType)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.RattingScale)
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.Comments)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trip.TripType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+            </td>
+
+        </tr>
+    }
+
+</table>
