@@ -33,7 +33,6 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Upcoming Trips", "Index", "Trips")</li>
-                    <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
                     <li>@Html.ActionLink("Location", "TripMap", "Trips")</li>
 
                     @if (User.Identity.IsAuthenticated)
@@ -45,8 +44,8 @@
                         }
                         else
                         {
-
-                            <li>@Html.ActionLink("My Trips", "Index", "UsersBookings")</li>
+                            <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
+                            @*<li>@Html.ActionLink("My Trips", "Index", "UsersBookings")</li>*@
                         }
 
 
