@@ -341,3 +341,5 @@ healthchecksdb
 /SQLQuery1.sql
 /WildernessOdyssey/Controllers/LocationsController.cs
 /WildernessOdyssey/Views/Locations
+/WildernessOdyssey/Content/images/back.jpg
+/WildernessOdyssey/Scripts/chartsDate.js
