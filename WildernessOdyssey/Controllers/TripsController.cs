@@ -142,17 +142,7 @@ namespace WildernessOdyssey.Controllers
         {
             if (ModelState.IsValid)
             {
-                //if (postedFile != null)
-                //{
-                //    var myUniqueFileName = string.Format(@"{0}", Guid.NewGuid());
-                //    trips.Path = myUniqueFileName;
-                //    string path = Server.MapPath("~/Content/images/");
-                //    string fileExtension = Path.GetExtension(postedFile.FileName);
-                //    string filePath = trips.Path + fileExtension;
-                //    trips.Path = filePath;
-                //    postedFile.SaveAs(path + trips.Path);
-                //    ViewBag.Message = "File uploaded successfully.";
-                //}
+                
                 db.Entry(trips).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -233,16 +223,8 @@ namespace WildernessOdyssey.Controllers
 
                 }
             }
+            else { ViewBag.Message = "Please log In to book with us."; }
             return View("Index",db.Trips.ToList());
-
-            //RedirectToAction("Create", "UsersBookings", new { id = "Create" });
-
-
-            //           var controller = DependencyResolver.Current.GetService<UsersBookingsController>();
-            //           controller.BookingPage(id);
-            //return result;
-
-
         }
 
 
@@ -259,13 +241,6 @@ namespace WildernessOdyssey.Controllers
 
             return View(db.Trips.ToList());
         }
-
-        //[HttpPost]
-        //public ActionResult Index(HttpPostedFileBase postedFile)
-        //{
-
-        //    return View();
-        //}
 
     }
 }

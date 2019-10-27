@@ -161,37 +161,10 @@ namespace WildernessOdyssey.Controllers
             var booking = db.UsersBookings.Where(u => u.AspNetUserId == currUserId && !string.IsNullOrEmpty(u.RattingScale));
 
             return View(booking.ToList());
-            //var usersBookings = db.UsersBookings.Include(u => u.Trip).Include(u => u.AspNetUser).Where(u=>u.Trip.EndDate < DateTime.Now);
+            
 
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Ratting([Bind(Include = "BookingId,Cost,RattingScale,Comments,TripsTripId,AspNetUserId,EndDate")] UsersBooking usersBooking, int? Rank, string Description)
-        //{
-        //    var po = Rank.Value;
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            usersBooking.RattingScale = po.ToString();
-        //            usersBooking.Comments = Description;
-        //            usersBooking.Cost = "1000";
-
-        //            db.Entry(usersBooking).State = EntityState.Modified;
-        //            db.SaveChanges();
-        //            return RedirectToAction("Index");
-
-        //        }
-        //        catch (System.Data.Entity.Validation.DbEntityValidationException dve)
-        //    {
-        //            throw dve;
-        //    }
-        //    }
-        //    ViewBag.TripsTripId = new SelectList(db.Trips, "TripId", "TripType", usersBooking.TripsTripId);
-        //    ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", usersBooking.AspNetUserId);
-        //    return View(usersBooking);
-        //}
 
     }
 }

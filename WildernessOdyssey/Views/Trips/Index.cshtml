@@ -40,6 +40,7 @@
                     @Html.DisplayNameFor(model => model.EndDate)
                 </th>
                 <th>
+                    Trip Image
                     @Html.DisplayNameFor(model => model.Path)
                 </th>
 
@@ -72,10 +73,19 @@
                     </td>
 
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.TripId }) |
-                        @Html.ActionLink("Book", "Booking", new { id = item.TripId }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.TripId }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.TripId })
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("admin"))
+                            {
+
+                            @Html.ActionLink("Edit", "Edit", new { id = item.TripId })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.TripId })
+                            }
+                        }
+                       
+                        @Html.ActionLink("Book", "Booking", new { id = item.TripId }) 
+                        @Html.ActionLink("Details", "Details", new { id = item.TripId }) 
+                        
                     </td>
                 </tr>
             }
