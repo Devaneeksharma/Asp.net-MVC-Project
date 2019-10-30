@@ -138,7 +138,7 @@ namespace WildernessOdyssey.Controllers
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TripId,TripType,TripName,TripLocation,Duration,StartDate,EndDate,Path,MapDesc,Longitude,Latitude,MapDesCription")] Trips trips, HttpPostedFileBase postedFile)
+        public ActionResult Edit([Bind(Include = "TripId,TripType,TripName,TripLocation,Status,Duration,StartDate,EndDate,Path,MapDesc,Longitude,Latitude,MapDesCription")] Trips trips, HttpPostedFileBase postedFile)
         {
             if (ModelState.IsValid)
             {
@@ -172,8 +172,20 @@ namespace WildernessOdyssey.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Trips trips = db.Trips.Find(id);
-            db.Trips.Remove(trips);
-            db.SaveChanges();
+            var status = string.Empty;
+            if (!string.IsNullOrEmpty(trips.Status))
+            {
+                status = trips.Status.ToLower();
+
+                var userBooking = db.UsersBookings.Where(s => s.TripsTripId == id && status == "canceled").AsEnumerable();
+                foreach (var u in userBooking)
+                {
+                    db.UsersBookings.Remove(u);
+                }
+                db.Trips.Remove(trips);
+                //db.UsersBookings.Remove(userBooking);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

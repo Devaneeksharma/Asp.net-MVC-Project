@@ -361,7 +361,6 @@
     <Compile Include="Controllers\SendEmailsController.cs" />
     <Compile Include="Controllers\TripsController.cs" />
     <Compile Include="Controllers\UsersBookingsController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -603,11 +602,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Trips\Create.cshtml" />
     <Content Include="Views\Trips\Delete.cshtml" />
     <Content Include="Views\Trips\Details.cshtml" />

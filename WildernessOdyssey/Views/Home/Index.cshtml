@@ -70,23 +70,21 @@
 
 @using (Html.BeginForm("Index", "Trips", FormMethod.Get))
 {
-    <div class=" form-group date-grid row">
-        <div class="date_pickercls col-lg-4">
+    <div class=" form-group row" style="margin-top:12%;">
+        <div class="date_pickercls col-lg-5 col-md-6 col-sm-5 col-xs-12">
             <label for="seldate">Start Date</label>
             @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "datepicker" } })
-
             <span class="glyphicon glyphicon-calendar"></span>
-        </div><div class="date_pickercls  col-lg-4">
+        </div><div class="date_pickercls col-lg-4 col-md-5 col-sm-5 col-xs-12">
             <label for="seldate">End Date</label>
             @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "datepicker" } })
-
             <span class="glyphicon glyphicon-calendar"></span>
-        </div><div class="searchbtn  btn-link col-lg-4"><input type="submit" value="Search" /></div>
+        </div><div class="searchbtn  btn-link col-lg-3 col-md-1 col-sm-2 col-xs-12"><input type="submit" value="Search" /></div>
     </div>
 }
-<div>
-    <div id="chartContainer" style="float:left;height: 370px; width: 60%; padding-bottom:20px;"></div>
-    <div id="chartContainerDo" style="float:left;height: 370px; width: 40%;padding-bottom:20px;"></div>
+<div class="row" style="margin-top:10%;">
+    <div id="chartContainer"  class="col-sm-1" style="float:left;height: 370px; width: 60%; padding-bottom:20px;"></div>
+    <div id="chartContainerDo" class="col-sm-1" style="float:left;height: 370px; width: 40%;padding-bottom:20px;"></div>
 </div>
 
 <script type="text/javascript">

@@ -8,7 +8,7 @@ namespace WildernessOdyssey.Util
     public class EmailSender
     {
         // Please use your API KEY here.
-        private const String API_KEY = "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";
+        private const String API_KEY = "";
 
         public void Send(String toEmail, String subject, String contents,string filePath,string fileName)
         {

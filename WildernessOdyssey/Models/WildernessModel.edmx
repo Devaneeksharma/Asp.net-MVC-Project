@@ -101,6 +101,7 @@
           <Property Name="Latitude" Type="numeric" Precision="10" Scale="8" />
           <Property Name="Longitude" Type="numeric" Precision="11" Scale="8" />
           <Property Name="MapDesCription" Type="nvarchar" MaxLength="11" />
+          <Property Name="Status" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -308,6 +309,7 @@
           <Property Name="Latitude" Type="Decimal" Precision="10" Scale="8" />
           <Property Name="Longitude" Type="Decimal" Precision="11" Scale="8" />
           <Property Name="MapDesCription" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Activities">
           <Key>
@@ -513,7 +515,8 @@
     <EntitySetMapping Name="Trips">
       <EntityTypeMapping TypeName="IsTypeOf(WildernessModel.Trips)">
         <MappingFragment StoreEntitySet="Trips">
-          <ScalarProperty Name="MapDesCription" ColumnName="MapDesCription" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="MapDesCription" ColumnName="MapDesCription" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="TripId" ColumnName="TripId" />
